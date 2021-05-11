@@ -4,8 +4,8 @@ namespace EFDataAccessLibrary.Models
 {
     public class Element
     {
-        [Key] [Required] public int Id { get; set; }
-        [MaxLength(256)] [Required] public string Name { get; set; }
+        [Key] public int Id { get; set; }
+        [MaxLength(128)] [Required] public string Name { get; set; }
         [MaxLength(1024)] [Required] public string Description { get; set; }
     }
 }
