@@ -1,11 +1,12 @@
-﻿using Frameworks.Web.Models;
+﻿using EFDataAccessLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace RemailCore.Library.DataAccess
+namespace EFDataAccessLibrary.DataAccess
 {
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions options) : base(options) { }
+
         public DbSet<Element> Elements { get; set; }
     }
 }

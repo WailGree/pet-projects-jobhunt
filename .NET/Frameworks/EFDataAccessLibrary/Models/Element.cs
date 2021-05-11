@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Frameworks.Web.Models
+namespace EFDataAccessLibrary.Models
 {
     public class Element
     {
