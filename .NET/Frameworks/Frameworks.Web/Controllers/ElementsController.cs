@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -23,6 +24,12 @@ namespace Frameworks.Web.Controllers
         public IActionResult Index()
         {
             return Ok();
+        }
+
+        [HttpGet("get-elements")]
+        public string GetElements()
+        {
+            return JsonSerializer.Serialize(_db.Elements);
         }
 
         [HttpGet("load-sample-data")]
