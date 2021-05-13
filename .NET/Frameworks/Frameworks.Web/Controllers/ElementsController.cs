@@ -18,9 +18,27 @@ namespace Frameworks.Web.Controllers
         public ElementsController(DataContext db)
         {
             _db = db;
-            LoadSampleData();
         }
 
+        public IActionResult Index()
+        {
+            return Ok();
+        }
+
+        [HttpGet("load-sample-data")]
+        public IActionResult LoadSample()
+        {
+            try
+            {
+                LoadSampleData();
+            }
+            catch(Exception e)
+            {
+                return BadRequest("Exception occured: " + e);
+            }
+            return Ok("Load successful");
+        }
+        
         private void LoadSampleData()
         {
             if (_db.Elements.Any()) return;
@@ -28,11 +46,6 @@ namespace Frameworks.Web.Controllers
             var elements = JsonSerializer.Deserialize<List<Element>>(file);
             _db.AddRange(elements);
             _db.SaveChanges();
-        }
-
-        public IActionResult Index()
-        {
-            return Ok();
         }
     }
 }
