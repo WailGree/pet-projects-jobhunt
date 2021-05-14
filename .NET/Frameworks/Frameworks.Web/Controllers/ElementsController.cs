@@ -3,10 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using EFDataAccessLibrary.DataAccess;
 using EFDataAccessLibrary.Models;
+using Frameworks.Web.Models;
 
 namespace Frameworks.Web.Controllers
 {
@@ -32,6 +34,37 @@ namespace Frameworks.Web.Controllers
             return JsonSerializer.Serialize(_db.Elements);
         }
 
+        [HttpDelete("delete-element")]
+        [Consumes("application/json")]
+        public IActionResult DeleteElement([FromBody] DeleteElementRequest request)
+        {
+            if (request == null || request.Id == 0)
+            {
+                return BadRequest("Missing parameter \"id\"");
+            }
+            else
+            {
+                try
+                {
+                    if (_db.Elements.Any(element => element.Id == request.Id))
+                    {
+                        Element remElement = new Element() {Id = request.Id};
+                        _db.Elements.Attach(remElement);
+                        _db.Elements.Remove(remElement);
+                        return Ok($"Element with id {request.Id} removed successfully");
+                    }
+                    else
+                    {
+                        return BadRequest($"Element not found with id {request.Id}");
+                    }
+                }
+                catch (Exception e)
+                {
+                    return BadRequest("Problem occurred during process: " + e);
+                }
+            }
+        }
+
         [HttpGet("load-sample-data")]
         public IActionResult LoadSample()
         {
@@ -39,13 +72,14 @@ namespace Frameworks.Web.Controllers
             {
                 LoadSampleData();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest("Exception occured: " + e);
             }
+
             return Ok("Load successful");
         }
-        
+
         private void LoadSampleData()
         {
             if (_db.Elements.Any()) return;
