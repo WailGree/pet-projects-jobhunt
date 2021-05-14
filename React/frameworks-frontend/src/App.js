@@ -1,5 +1,5 @@
-import '../style/App.css';
-import Navbar from './Navbar';
+import './style/App.css';
+import Navbar from './components/Navbar';
 import { Redirect, Route } from "react-router-dom";
 
 export default function App() {
