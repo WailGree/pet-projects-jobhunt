@@ -35,9 +35,16 @@ namespace Frameworks.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            DefaultFilesOptions options = new DefaultFilesOptions();
+            options.DefaultFileNames.Clear();
+            options.DefaultFileNames.Add("index.html");
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseDefaultFiles(options);
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
