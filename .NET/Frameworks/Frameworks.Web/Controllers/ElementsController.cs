@@ -38,11 +38,7 @@ namespace Frameworks.Web.Controllers
         [Consumes("application/json")]
         public IActionResult DeleteElement([FromBody] DeleteElementRequest request)
         {
-            if (request == null || request.Id == 0)
-            {
-                return BadRequest("Missing parameter \"id\"");
-            }
-            else
+            if (request != null || request.Id != 0)
             {
                 try
                 {
@@ -64,6 +60,8 @@ namespace Frameworks.Web.Controllers
                     return BadRequest("Problem occurred during process: " + e);
                 }
             }
+
+            return BadRequest("Missing parameter \"id\"");
         }
 
         [HttpGet("load-sample-data")]
