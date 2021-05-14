@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using EFDataAccessLibrary.DataAccess;
 using EFDataAccessLibrary.Models;
 using Frameworks.Web.Models;
+using Microsoft.Extensions.Primitives;
 
 namespace Frameworks.Web.Controllers
 {
@@ -32,6 +33,17 @@ namespace Frameworks.Web.Controllers
         public string GetElements()
         {
             return JsonSerializer.Serialize(_db.Elements);
+        }
+
+        [HttpPost("get-element")]
+        [Consumes("application/json")]
+        public string GetElement([FromBody] DeleteElementRequest request)
+        {
+            if (request == null || request.Id == 0)
+                return null;
+
+            Element element = _db.Elements.FirstOrDefault(fodElement => fodElement.Id == request.Id);
+            return JsonSerializer.Serialize(element);
         }
 
         [HttpPut("add-element")]
