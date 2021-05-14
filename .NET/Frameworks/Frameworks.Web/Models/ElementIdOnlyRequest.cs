@@ -1,6 +1,6 @@
 ﻿namespace Frameworks.Web.Models
 {
-    public class DeleteElementRequest
+    public class ElementIdOnlyRequest
     {
         public int Id { get; set; }
     }

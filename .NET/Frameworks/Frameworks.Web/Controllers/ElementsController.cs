@@ -37,12 +37,12 @@ namespace Frameworks.Web.Controllers
 
         [HttpPost("get-element")]
         [Consumes("application/json")]
-        public string GetElement([FromBody] DeleteElementRequest request)
+        public string GetElement([FromBody] ElementIdOnlyRequest idOnlyRequest)
         {
-            if (request == null || request.Id == 0)
+            if (idOnlyRequest == null || idOnlyRequest.Id == 0)
                 return null;
 
-            Element element = _db.Elements.FirstOrDefault(fodElement => fodElement.Id == request.Id);
+            Element element = _db.Elements.FirstOrDefault(fodElement => fodElement.Id == idOnlyRequest.Id);
             return JsonSerializer.Serialize(element);
         }
 
@@ -67,22 +67,22 @@ namespace Frameworks.Web.Controllers
 
         [HttpDelete("delete-element")]
         [Consumes("application/json")]
-        public IActionResult DeleteElement([FromBody] DeleteElementRequest request)
+        public IActionResult DeleteElement([FromBody] ElementIdOnlyRequest idOnlyRequest)
         {
-            if (request == null || request.Id == 0) return BadRequest("Missing parameter \"id\"");
+            if (idOnlyRequest == null || idOnlyRequest.Id == 0) return BadRequest("Missing parameter \"id\"");
             try
             {
-                if (_db.Elements.Any(element => element.Id == request.Id))
+                if (_db.Elements.Any(element => element.Id == idOnlyRequest.Id))
                 {
-                    Element remElement = new Element {Id = request.Id};
+                    Element remElement = new Element {Id = idOnlyRequest.Id};
                     _db.Elements.Attach(remElement);
                     _db.Elements.Remove(remElement);
                     _db.SaveChanges();
-                    return Ok($"Element with id {request.Id} removed successfully");
+                    return Ok($"Element with id {idOnlyRequest.Id} removed successfully");
                 }
                 else
                 {
-                    return BadRequest($"Element not found with id {request.Id}");
+                    return BadRequest($"Element not found with id {idOnlyRequest.Id}");
                 }
             }
             catch (Exception e)
