@@ -42,7 +42,7 @@ namespace Frameworks.Web.Controllers
                 return BadRequest("The request's body is either missing elements or is completely empty.");
             try
             {
-                Element element = new Element() {Name = request.Name, Description = request.Description};
+                Element element = new Element {Name = request.Name, Description = request.Description};
                 _db.Add(element);
                 _db.SaveChanges();
                 return Ok("Element added successfully");
@@ -62,7 +62,7 @@ namespace Frameworks.Web.Controllers
             {
                 if (_db.Elements.Any(element => element.Id == request.Id))
                 {
-                    Element remElement = new Element() {Id = request.Id};
+                    Element remElement = new Element {Id = request.Id};
                     _db.Elements.Attach(remElement);
                     _db.Elements.Remove(remElement);
                     _db.SaveChanges();
