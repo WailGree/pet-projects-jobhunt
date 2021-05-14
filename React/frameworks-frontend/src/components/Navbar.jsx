@@ -36,6 +36,7 @@ export default function Navbar(props) {
         }
     }));
     const classes = useStyles();
+    
     return (
         <div>
             <AppBar position="static" className={classes.appBarStyles}>
