@@ -51,6 +51,7 @@ namespace Frameworks.Web.Controllers
                         Element remElement = new Element() {Id = request.Id};
                         _db.Elements.Attach(remElement);
                         _db.Elements.Remove(remElement);
+                        _db.SaveChanges();
                         return Ok($"Element with id {request.Id} removed successfully");
                     }
                     else
