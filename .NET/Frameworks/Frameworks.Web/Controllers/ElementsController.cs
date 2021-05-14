@@ -34,6 +34,28 @@ namespace Frameworks.Web.Controllers
             return JsonSerializer.Serialize(_db.Elements);
         }
 
+        [HttpPut("add-element")]
+        [Consumes("application/json")]
+        public IActionResult AddElement([FromBody] AddElementRequest request)
+        {
+            if (request != null && !string.IsNullOrEmpty(request.Name) && !string.IsNullOrEmpty(request.Description))
+            {
+                try
+                {
+                    Element element = new Element() {Name = request.Name, Description = request.Description};
+                    _db.Add(element);
+                    _db.SaveChanges();
+                    return Ok("Element added successfully");
+                }
+                catch (Exception e)
+                {
+                    return BadRequest("Problem occurred during process: " + e);
+                }
+            }
+
+            return BadRequest("The request's body is either missing elements or is completely empty.");
+        }
+
         [HttpDelete("delete-element")]
         [Consumes("application/json")]
         public IActionResult DeleteElement([FromBody] DeleteElementRequest request)
