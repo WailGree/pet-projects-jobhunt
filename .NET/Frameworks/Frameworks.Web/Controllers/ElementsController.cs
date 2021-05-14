@@ -38,52 +38,45 @@ namespace Frameworks.Web.Controllers
         [Consumes("application/json")]
         public IActionResult AddElement([FromBody] AddElementRequest request)
         {
-            if (request != null && !string.IsNullOrEmpty(request.Name) && !string.IsNullOrEmpty(request.Description))
+            if (request == null || string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Description))
+                return BadRequest("The request's body is either missing elements or is completely empty.");
+            try
             {
-                try
-                {
-                    Element element = new Element() {Name = request.Name, Description = request.Description};
-                    _db.Add(element);
-                    _db.SaveChanges();
-                    return Ok("Element added successfully");
-                }
-                catch (Exception e)
-                {
-                    return BadRequest("Problem occurred during process: " + e);
-                }
+                Element element = new Element() {Name = request.Name, Description = request.Description};
+                _db.Add(element);
+                _db.SaveChanges();
+                return Ok("Element added successfully");
             }
-
-            return BadRequest("The request's body is either missing elements or is completely empty.");
+            catch (Exception e)
+            {
+                return BadRequest("Problem occurred during process: " + e);
+            }
         }
 
         [HttpDelete("delete-element")]
         [Consumes("application/json")]
         public IActionResult DeleteElement([FromBody] DeleteElementRequest request)
         {
-            if (request != null || request.Id != 0)
+            if (request == null || request.Id == 0) return BadRequest("Missing parameter \"id\"");
+            try
             {
-                try
+                if (_db.Elements.Any(element => element.Id == request.Id))
                 {
-                    if (_db.Elements.Any(element => element.Id == request.Id))
-                    {
-                        Element remElement = new Element() {Id = request.Id};
-                        _db.Elements.Attach(remElement);
-                        _db.Elements.Remove(remElement);
-                        _db.SaveChanges();
-                        return Ok($"Element with id {request.Id} removed successfully");
-                    }
-                    else
-                    {
-                        return BadRequest($"Element not found with id {request.Id}");
-                    }
+                    Element remElement = new Element() {Id = request.Id};
+                    _db.Elements.Attach(remElement);
+                    _db.Elements.Remove(remElement);
+                    _db.SaveChanges();
+                    return Ok($"Element with id {request.Id} removed successfully");
                 }
-                catch (Exception e)
+                else
                 {
-                    return BadRequest("Problem occurred during process: " + e);
+                    return BadRequest($"Element not found with id {request.Id}");
                 }
             }
-
-            return BadRequest("Missing parameter \"id\"");
+            catch (Exception e)
+            {
+                return BadRequest("Problem occurred during process: " + e);
+            }
         }
 
         [HttpGet("load-sample-data")]
