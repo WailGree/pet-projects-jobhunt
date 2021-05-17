@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text.Json;
-using System.Threading.Tasks;
 using EFDataAccessLibrary.DataAccess;
 using EFDataAccessLibrary.Models;
 using Frameworks.Web.Models;
-using Microsoft.Extensions.Primitives;
 
 namespace Frameworks.Web.Controllers
 {
