@@ -30,20 +30,20 @@ namespace Frameworks.Web.Controllers
         }
 
         [HttpGet("get-elements")]
-        public string GetElements()
+        public IEnumerable<Element> GetElements()
         {
-            return JsonSerializer.Serialize(_db.Elements);
+            return _db.Elements;
         }
 
         [HttpPost("get-element")]
         [Consumes("application/json")]
-        public string GetElement([FromBody] ElementIdOnlyRequest idOnlyRequest)
+        public Element GetElement([FromBody] ElementIdOnlyRequest idOnlyRequest)
         {
             if (idOnlyRequest == null || idOnlyRequest.Id == 0)
                 return null;
 
             Element element = _db.Elements.FirstOrDefault(fodElement => fodElement.Id == idOnlyRequest.Id);
-            return JsonSerializer.Serialize(element);
+            return element;
         }
 
         [HttpPut("add-element")]
