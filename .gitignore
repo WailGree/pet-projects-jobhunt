@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.NET/Frameworks/.vs
+
+/.NET/Frameworks/Frameworks.Web/bin
+/.NET/Frameworks/Frameworks.Web/obj
+
+/.NET/Frameworks/EFDataAccessLibrary/bin
+/.NET/Frameworks/EFDataAccessLibrary/obj
