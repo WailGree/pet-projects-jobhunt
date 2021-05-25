@@ -10,6 +10,8 @@ namespace Frameworks.Web
 {
     public class Startup
     {
+        string policyName = "CORS_POLICY";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,6 +26,19 @@ namespace Frameworks.Web
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(policyName,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:3000")
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                    });
+            });
+
             services.AddControllers();
         }
 
@@ -38,10 +53,12 @@ namespace Frameworks.Web
             DefaultFilesOptions options = new DefaultFilesOptions();
             options.DefaultFileNames.Clear();
             options.DefaultFileNames.Add("index.html");
-
+                
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(policyName);
 
             app.UseDefaultFiles(options);
             app.UseStaticFiles();
