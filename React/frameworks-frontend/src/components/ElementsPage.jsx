@@ -1,7 +1,37 @@
+import { useEffect, useState } from 'react';
 import Element from "./Element";
 import { Grid, makeStyles } from '@material-ui/core';
 
 export default function ElementsPage() {
+
+    const axios = require('axios').default;
+
+    const [elements, setElements] = useState([]);
+    async function getElements() {
+        try {
+            const response = await axios.get('https://localhost:44317/elements/get-elements/')
+            return response.data
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    useEffect(() => {
+
+        // async solution:
+        // async function example() {
+        // setElements(await getElements());
+        // }
+        // example();
+
+        getElements().then(elements => {
+            if (elements !== null && elements !== undefined) {
+                setElements(elements);
+            }
+            else {
+                setElements(undefined);
+            }
+        })
+    }, [])
 
     const gridItemxl = 2;
     const gridItemlg = 3;
@@ -23,19 +53,33 @@ export default function ElementsPage() {
     })
     const classes = useStyle();
 
+    /*
+    Example elements
     let exampleElements = [];
+    let response = getElements();
+    console.log(response);
     for (let i = 1; i <= 100; i++) {
-        exampleElements.push({ name: "Test" + i, description: "This is test " + i })
+        exampleElements.push({ name: "Test" + i, description: "This is test" + i })
     }
-    let example = exampleElements.map((exampleElement, index) => (
-        <Grid item key={index} xs={gridItemxs} xl={gridItemxl} lg={gridItemlg} sm={gridItemsm} md={gridItemmd}>
-            <Element element={exampleElement} />
-        </Grid>
-    ))
+    */
+
+    let displayedElements;
+    if (elements !== null && elements !== undefined) {
+        displayedElements = elements.map((exampleElement, index) => (
+            <Grid item key={index} xs={gridItemxs} xl={gridItemxl} lg={gridItemlg} sm={gridItemsm} md={gridItemmd}>
+                <Element element={exampleElement} />
+            </Grid>
+        ))
+    }
+    else {
+        console.log("No elements were loaded.");
+    }
 
     return (
-        <Grid container spacing={6} className={classes.containerGrid}>
-            {example}
-        </Grid>
+        <div className={classes.root}>
+            <Grid container spacing={6} className={classes.containerGrid}>
+                {displayedElements}
+            </Grid>
+        </div>
     )
 }
