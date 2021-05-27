@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import Element from "./Element";
 import { Grid, makeStyles } from '@material-ui/core';
+import EditMenu from './EditMenu';
 
 export default function ElementsPage() {
 
-    const axios = require('axios').default;
+    const [loadingState, setloadingState] = useState(true)
 
     const [elements, setElements] = useState([]);
     async function getElements() {
+        const axios = require('axios').default;
         try {
             const response = await axios.get('https://localhost:44317/elements/get-elements/')
             return response.data
@@ -30,6 +32,7 @@ export default function ElementsPage() {
             else {
                 setElements(undefined);
             }
+            setloadingState(false);
         })
     }, [])
 
@@ -77,8 +80,9 @@ export default function ElementsPage() {
 
     return (
         <div className={classes.root}>
+            <EditMenu />
             <Grid container spacing={6} className={classes.containerGrid}>
-                {displayedElements}
+                {loadingState ? "Loading menu..." : displayedElements}
             </Grid>
         </div>
     )
