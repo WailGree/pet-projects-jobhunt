@@ -22,6 +22,11 @@ export default function Element({ element }) {
     });
     const classes = useStyles();
 
+    let trimmedDeescriptionLength = 100;
+    function trimDescription(description, begin, end) {
+        let result = description.substr(begin, end) + "...";
+        return result;
+    }
     return (
         <div>
             <Card className={classes.root} variant="outlined">
@@ -32,7 +37,7 @@ export default function Element({ element }) {
                             {element.name}
                         </Typography>
                         <Typography variant="body2" component="p">
-                            {element.description}
+                            {element.description.length > 100 ? trimDescription(element.description, 0, trimmedDeescriptionLength) : element.description}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
