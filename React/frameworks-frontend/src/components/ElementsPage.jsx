@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Element from "./Element";
 import { Grid, makeStyles } from '@material-ui/core';
 import EditMenu from './EditMenu';
+import ElementModal from './ElementModal';
 
 export default function ElementsPage() {
 
@@ -80,6 +81,7 @@ export default function ElementsPage() {
 
     return (
         <div className={classes.root}>
+            <ElementModal />
             <EditMenu />
             <Grid container spacing={6} className={classes.containerGrid}>
                 {loadingState ? "Loading menu..." : displayedElements}
