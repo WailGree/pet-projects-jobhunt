@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import AddElementModal from './AddElementModal';
 
 export default function EditMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,7 +27,9 @@ export default function EditMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Add Element</MenuItem>
+        <MenuItem>
+          <AddElementModal onClick={handleClose} />
+        </MenuItem>
       </Menu>
     </div>
   );
