@@ -15,9 +15,9 @@ export default function AddElementModal() {
     }
 
     function handleCredentials() {
-        checkFields();
         if (checkFields()) {
             console.log("Success");
+            sendNewElement();
             toggleOpenState();
         }
         else {
@@ -26,6 +26,14 @@ export default function AddElementModal() {
         }
     }
 
+    async function sendNewElement(){
+        const axios = require('axios').default;
+        const newElement = {"name" : elementName.current.value, "description" : elementDescription.current.value}
+        console.log("newElement: " + newElement);
+        const response = await axios.put("https://localhost:44317/elements/add-element/", newElement);
+        console.log(response.data);
+        // return response.data;
+    }
     function checkFields() {
         return elementName.current.value !== "" && elementDescription.current.value !== "";
     }
