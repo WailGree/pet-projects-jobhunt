@@ -27,7 +27,7 @@ export default function EditMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem>
+        <MenuItem onClick={handleClose}>
           <AddElementModal onClick={handleClose} />
         </MenuItem>
       </Menu>
