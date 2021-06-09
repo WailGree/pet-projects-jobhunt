@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,30 +9,67 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 export default function AddElementModal() {
 
     const [openState, setOpenState] = useState(false);
+    const [nameErrorState, setNameErrorState] = useState(false);
+    const [descriptionErrorState, setDescriptionErrorState] = useState(false);
+
+    const elementName = useRef("");
+    const elementDescription = useRef("");
 
     function toggleOpenState() {
         setOpenState(!openState);
     }
 
+    function handleCredentials() {
+        checkFields();
+        if (checkFields()) {
+            console.log("Success");
+            toggleOpenState();
+        }
+        else {
+            console.log("Failure");
+        }
+    }
+
+    function checkFields() {
+        let result = true;
+        if (elementName.current.value === "") {
+            setNameErrorState(true);
+            result = false;
+        }
+        else {
+            setNameErrorState(false);
+        }
+        if (elementDescription.current.value === "") {
+            setDescriptionErrorState(true);
+            result = false;
+        }
+        else {
+            setDescriptionErrorState(false);
+        }
+        return result;
+    }
+
     return (
-        <div onClick={toggleOpenState}>
-            Add Element
-            <Dialog open={openState} close={toggleOpenState}>
+        <div>
+            <div onClick={toggleOpenState}>Add Element </div>
+            <Dialog open={openState} close={toggleOpenState} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add Element</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
-                        required
+                        error={nameErrorState}
                         margin="dense"
                         id="name"
-                        label="Name"
+                        label={nameErrorState ? "Required field" : "Name"}
+                        inputRef={elementName}
                         fullWidth
                     />
                     <TextField
-                        required
+                        error={descriptionErrorState}
                         margin="dense"
                         id="description"
-                        label="Description"
+                        label={descriptionErrorState ? "Required field" : "Description"}
+                        inputRef={elementDescription}
                         fullWidth
                     />
                 </DialogContent>
@@ -40,7 +77,7 @@ export default function AddElementModal() {
                     <Button onClick={toggleOpenState} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={toggleOpenState} color="primary">
+                    <Button onClick={handleCredentials} color="primary">
                         Add
                     </Button>
                 </DialogActions>
