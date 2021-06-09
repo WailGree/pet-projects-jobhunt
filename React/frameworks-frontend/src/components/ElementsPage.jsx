@@ -3,7 +3,6 @@ import Element from "./Element";
 import { Grid, makeStyles } from '@material-ui/core';
 import EditMenu from './EditMenu';
 import ElementModal from './ElementModal';
-import AddElementModal from './AddElementModal';
 
 export default function ElementsPage() {
 
