@@ -1,8 +1,5 @@
 import React from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import { Dialog, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 
 export default function ElementModal() {

@@ -1,7 +1,5 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import { Button, Menu, MenuItem } from '@material-ui/core';
 import AddElementModal from './AddElementModal';
 
 export default function EditMenu() {
