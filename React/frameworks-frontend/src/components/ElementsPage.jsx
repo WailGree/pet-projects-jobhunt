@@ -44,7 +44,7 @@ export default function ElementsPage() {
             });
             return elements;
         }
-    }, [elements])
+    }, [setElements])
 
     const gridItemxl = 2;
     const gridItemlg = 3;
