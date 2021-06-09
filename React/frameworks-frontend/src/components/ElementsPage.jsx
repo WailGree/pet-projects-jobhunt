@@ -3,12 +3,12 @@ import Element from "./Element";
 import { Grid, makeStyles } from '@material-ui/core';
 import EditMenu from './EditMenu';
 import ElementModal from './ElementModal';
-
+import { useStoreState, useStoreActions } from 'easy-peasy';
 export default function ElementsPage() {
 
     const [loadingState, setloadingState] = useState(true)
-
-    const [elements, setElements] = useState([]);
+    const elements = useStoreState(state => state.elements);
+    const setElements = useStoreActions(actions => actions.setElements);
     async function getElements() {
         const axios = require('axios').default;
         try {
@@ -44,7 +44,7 @@ export default function ElementsPage() {
             });
             return elements;
         }
-    }, [])
+    }, [elements])
 
     const gridItemxl = 2;
     const gridItemlg = 3;
