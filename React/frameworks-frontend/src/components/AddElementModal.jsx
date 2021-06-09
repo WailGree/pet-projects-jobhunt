@@ -15,8 +15,8 @@ export default function AddElementModal() {
     }
 
     return (
-        <div>
-            <Button onClick={toggleOpenState}>Add Element</Button>
+        <div onClick={toggleOpenState}>
+            Add Element
             <Dialog open={openState} close={toggleOpenState}>
                 <DialogTitle id="form-dialog-title">Add Element</DialogTitle>
                 <DialogContent>
