@@ -27,7 +27,6 @@ export default function Element({ element }) {
     const toggleElementModal = useStoreActions(actions => actions.toggleElementModalIsOpen);
 
     function handleClickEvent() {
-        console.log(element);
         setModalElementData(element);
         toggleElementModal();
     }
