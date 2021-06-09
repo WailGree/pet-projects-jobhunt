@@ -1,11 +1,15 @@
 import { useState, useRef } from 'react';
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import { useStoreActions } from 'easy-peasy';
 
 export default function AddElementModal() {
 
     const [openState, setOpenState] = useState(false);
     const [nameErrorState, setNameErrorState] = useState(false);
     const [descriptionErrorState, setDescriptionErrorState] = useState(false);
+
+
+    const addElement = useStoreActions(actions => actions.addElement);
 
     const elementName = useRef("");
     const elementDescription = useRef("");
@@ -29,10 +33,14 @@ export default function AddElementModal() {
 
     async function sendNewElement() {
         const axios = require('axios').default;
+
         const newElement = { "name": elementName.current.value, "description": elementDescription.current.value }
         console.log("newElement: " + newElement);
         try {
             const response = await axios.put("https://localhost:44317/elements/add-element/", newElement);
+            if (response.status === 200) {
+                addElement(newElement);
+            }
             return response.status === 200;
         }
         catch (err) {
