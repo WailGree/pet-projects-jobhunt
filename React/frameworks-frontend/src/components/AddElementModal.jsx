@@ -26,27 +26,28 @@ export default function AddElementModal() {
             toggleOpenState();
         }
         else {
+            handleFieldError();
             console.log("Failure");
         }
     }
 
     function checkFields() {
-        let result = true;
+        return elementName.current.value !== "" && elementDescription.current.value !== "";
+    }
+
+    function handleFieldError() {
         if (elementName.current.value === "") {
             setNameErrorState(true);
-            result = false;
         }
         else {
             setNameErrorState(false);
         }
         if (elementDescription.current.value === "") {
             setDescriptionErrorState(true);
-            result = false;
         }
         else {
             setDescriptionErrorState(false);
         }
-        return result;
     }
 
     return (
