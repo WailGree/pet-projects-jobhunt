@@ -17,8 +17,9 @@ export default function AddElementModal() {
     function handleCredentials() {
         if (checkFields()) {
             console.log("Success");
-            sendNewElement();
-            toggleOpenState();
+            if (sendNewElement()) {
+                toggleOpenState();
+            }
         }
         else {
             handleFieldError();
@@ -26,12 +27,17 @@ export default function AddElementModal() {
         }
     }
 
-    async function sendNewElement(){
+    async function sendNewElement() {
         const axios = require('axios').default;
-        const newElement = {"name" : elementName.current.value, "description" : elementDescription.current.value}
+        const newElement = { "name": elementName.current.value, "description": elementDescription.current.value }
         console.log("newElement: " + newElement);
-        const response = await axios.put("https://localhost:44317/elements/add-element/", newElement);
-        console.log(response.data);
+        try {
+            const response = await axios.put("https://localhost:44317/elements/add-element/", newElement);
+            return response.status === 200;
+        }
+        catch (err) {
+            console.log(err);
+        }
         // return response.data;
     }
     function checkFields() {
@@ -55,7 +61,7 @@ export default function AddElementModal() {
 
     return (
         <div>
-            <div onClick={toggleOpenState}>Add Element </div>
+            <div onClick={toggleOpenState}>Add Element</div>
             <Dialog open={openState} close={toggleOpenState} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add Element</DialogTitle>
                 <DialogContent>
