@@ -28,13 +28,22 @@ export default function ElementsPage() {
 
         getElements().then(elements => {
             if (elements !== null && elements !== undefined) {
-                setElements(elements);
+                setElements(sortElements(elements));
             }
             else {
                 setElements(undefined);
             }
             setloadingState(false);
         })
+
+        function sortElements(elements) {
+            elements = elements.sort(function (element1, element2) {
+                if (element1.name < element2.name) { return -1; }
+                if (element1.name > element2.name) { return 1; }
+                return 0;
+            });
+            return elements;
+        }
     }, [])
 
     const gridItemxl = 2;
