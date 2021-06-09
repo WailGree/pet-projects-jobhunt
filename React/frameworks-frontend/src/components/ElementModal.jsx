@@ -17,7 +17,7 @@ export default function ElementModal() {
                 <DialogTitle id="form-dialog-title">{elementData.name}</DialogTitle>
                 <DialogContent>
                     Image goes here
-          <DialogContentText>
+                    <DialogContentText>
                         {elementData.description}
                     </DialogContentText>
                 </DialogContent>
