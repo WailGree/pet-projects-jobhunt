@@ -1,5 +1,6 @@
 import { Card, CardActionArea, CardContent, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import { useStoreActions } from 'easy-peasy';
 
 export default function Element({ element }) {
 
@@ -22,6 +23,14 @@ export default function Element({ element }) {
     });
     const classes = useStyles();
 
+    const setModalElementData = useStoreActions(actions => actions.setElementModalData);
+    const toggleElementModal = useStoreActions(actions => actions.toggleElementModalIsOpen);
+
+    function handleClickEvent() {
+        setModalElementData(element);
+        toggleElementModal();
+    }
+
     let trimmedDeescriptionLength = 100;
     function trimDescription(description, begin, end) {
         let result = description.substr(begin, end) + "...";
@@ -30,7 +39,7 @@ export default function Element({ element }) {
     return (
         <div>
             <Card className={classes.root} variant="outlined">
-                <CardActionArea>
+                <CardActionArea onClick={handleClickEvent}>
                     Image goes here
                     <CardContent>
                         <Typography variant="h5" component="h2">

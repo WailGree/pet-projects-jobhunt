@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import Element from "./Element";
 import { Grid, makeStyles } from '@material-ui/core';
-
+import EditMenu from './EditMenu';
+import ElementModal from './ElementModal';
+import { useStoreState, useStoreActions } from 'easy-peasy';
 export default function ElementsPage() {
 
-    const axios = require('axios').default;
-
-    const [elements, setElements] = useState([]);
+    const [loadingState, setloadingState] = useState(true)
+    const elements = useStoreState(state => state.elements);
+    const setElements = useStoreActions(actions => actions.setElements);
     async function getElements() {
+        const axios = require('axios').default;
         try {
             const response = await axios.get('https://localhost:44317/elements/get-elements/')
             return response.data
@@ -25,13 +28,23 @@ export default function ElementsPage() {
 
         getElements().then(elements => {
             if (elements !== null && elements !== undefined) {
-                setElements(elements);
+                setElements(sortElements(elements));
             }
             else {
                 setElements(undefined);
             }
+            setloadingState(false);
         })
-    }, [])
+
+        function sortElements(elements) {
+            elements = elements.sort(function (element1, element2) {
+                if (element1.name < element2.name) { return -1; }
+                if (element1.name > element2.name) { return 1; }
+                return 0;
+            });
+            return elements;
+        }
+    }, [setElements])
 
     const gridItemxl = 2;
     const gridItemlg = 3;
@@ -77,8 +90,10 @@ export default function ElementsPage() {
 
     return (
         <div className={classes.root}>
+            <ElementModal />
+            <EditMenu />
             <Grid container spacing={6} className={classes.containerGrid}>
-                {displayedElements}
+                {loadingState ? "Loading menu..." : displayedElements}
             </Grid>
         </div>
     )
